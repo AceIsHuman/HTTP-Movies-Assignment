@@ -32,6 +32,18 @@ const UpdateMovie = props => {
     setMovie({ ...movie, [e.target.name]: e.target.value });
   };
 
+  const handleStarChanges = e => {
+    setMovie({
+      ...movie,
+      stars: movie.stars.map((star, i) => {
+        console.log('e.target.key', e.target.name)
+        if (e.target.name === `${i}`) {
+          return e.target.value;
+        }
+      })
+    });
+  };
+
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
@@ -61,7 +73,12 @@ const UpdateMovie = props => {
           <div className="stars">
             <Header as="h4">Actors</Header>
             {movie.stars.map((star, i) => (
-              <Form.Input key={i} name="star" value={star} />
+              <Form.Input
+                key={i}
+                name={i}
+                value={star}
+                onChange={handleStarChanges}
+              />
             ))}
           </div>
         ) : null}
