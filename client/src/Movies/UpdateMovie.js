@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
-import { Container, Form, Header } from "semantic-ui-react";
+import axios from "axios";
+import { Container, Form, Header, Button } from "semantic-ui-react";
 
 const UpdateMovie = props => {
-  const { match, history} = props;
+  const { match, history } = props;
   const [movie, setMovie] = useState();
 
   useEffect(() => {
@@ -17,14 +17,35 @@ const UpdateMovie = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    axios
+      .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err.response);
+      });
+    history.push("/");
   };
 
   return (
     <Container>
-      <Form>
-        <Form.Input name="title" placeholder="Title" value={movie && movie.title} />
-        <Form.Input name="director" placeholder="Director" value={movie && movie.director} />
-        <Form.Input name="metascore" placeholder="Metascore" value={movie && movie.metascore} />
+      <Form onSubmit={handleSubmit}>
+        <Form.Input
+          name="title"
+          placeholder="Title"
+          value={movie && movie.title}
+        />
+        <Form.Input
+          name="director"
+          placeholder="Director"
+          value={movie && movie.director}
+        />
+        <Form.Input
+          name="metascore"
+          placeholder="Metascore"
+          value={movie && movie.metascore}
+        />
         {movie ? (
           <div className="stars">
             <Header as="h4">Actors</Header>
@@ -33,6 +54,7 @@ const UpdateMovie = props => {
             ))}
           </div>
         ) : null}
+        <Button>Update Movie</Button>
       </Form>
     </Container>
   );
