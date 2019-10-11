@@ -2,25 +2,24 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import MovieCard from "./MovieCard";
-export default class MovieList extends Component {
+import { connect } from "react-redux";
+import { updateMovies } from '../actions';
+
+class MovieList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      movies: []
-    };
+    console.log(props);
   }
 
   componentDidMount() {
-    axios
-      .get("http://localhost:5000/api/movies")
-      .then(res => this.setState({ movies: res.data }))
-      .catch(err => console.log(err.response));
+    this.props.updateMovies();
+    console.log(this.props.movies)
   }
 
   render() {
     return (
       <div className="movie-list">
-        {this.state.movies.map(movie => (
+        {this.props.movies && this.props.movies.map(movie => (
           <MovieDetails key={movie.id} movie={movie} />
         ))}
       </div>
@@ -35,3 +34,9 @@ function MovieDetails({ movie }) {
     </Link>
   );
 }
+
+const mapStateToProps = state => ({
+  movies: state.movies
+})
+
+export default connect(mapStateToProps, {updateMovies})(MovieList);
