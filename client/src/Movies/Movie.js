@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import MovieCard from "./MovieCard";
+import { Button } from "semantic-ui-react";
 export default class Movie extends React.Component {
   constructor(props) {
     super(props);
@@ -42,6 +43,14 @@ export default class Movie extends React.Component {
         <div className="save-button" onClick={this.saveMovie}>
           Save
         </div>
+        <Button
+          onClick={e => {
+            e.preventDefault();
+            this.props.history.push(`/update-movie/${this.state.movie.id}`);
+          }}
+        >
+          Edit Movie Details
+        </Button>
       </div>
     );
   }
