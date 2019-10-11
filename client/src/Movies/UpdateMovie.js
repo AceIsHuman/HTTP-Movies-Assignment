@@ -28,29 +28,40 @@ const UpdateMovie = props => {
     history.push("/");
   };
 
+  const handleChanges = e => {
+    setMovie({ ...movie, [e.target.name]: e.target.value });
+  };
+
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
         <Form.Input
           name="title"
+          label="Title"
           placeholder="Title"
+          onChange={handleChanges}
           value={movie && movie.title}
         />
         <Form.Input
           name="director"
+          label="Director"
           placeholder="Director"
+          onChange={handleChanges}
           value={movie && movie.director}
         />
         <Form.Input
           name="metascore"
+          label="Metascore"
+          type="number"
           placeholder="Metascore"
+          onChange={handleChanges}
           value={movie && movie.metascore}
         />
         {movie ? (
           <div className="stars">
             <Header as="h4">Actors</Header>
             {movie.stars.map((star, i) => (
-              <Form.Input key={("star ", i)} name="star" value={star} />
+              <Form.Input key={i} name="star" value={star} />
             ))}
           </div>
         ) : null}
