@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import MovieCard from "./MovieCard";
 import { connect } from "react-redux";
-import { updateMovies } from '../actions';
+import { updateMovies } from "../actions";
 
 class MovieList extends Component {
   constructor(props) {
@@ -13,15 +13,16 @@ class MovieList extends Component {
 
   componentDidMount() {
     this.props.updateMovies();
-    console.log(this.props.movies)
+    console.log(this.props.movies);
   }
 
   render() {
     return (
       <div className="movie-list">
-        {this.props.movies && this.props.movies.map(movie => (
-          <MovieDetails key={movie.id} movie={movie} />
-        ))}
+        {this.props.movies &&
+          this.props.movies.map(movie => (
+            <MovieDetails key={movie.id} movie={movie} />
+          ))}
       </div>
     );
   }
@@ -37,6 +38,9 @@ function MovieDetails({ movie }) {
 
 const mapStateToProps = state => ({
   movies: state.movies
-})
+});
 
-export default connect(mapStateToProps, {updateMovies})(MovieList);
+export default connect(
+  mapStateToProps,
+  { updateMovies }
+)(MovieList);
