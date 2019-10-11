@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Form, Header, Button } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { updateMovies } from "../actions";
 
 const UpdateMovie = props => {
-  const { match, history } = props;
+  const { match, history, movies, updateMovies } = props;
   const [movie, setMovie] = useState();
 
   useEffect(() => {
@@ -21,6 +23,14 @@ const UpdateMovie = props => {
       .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
       .then(res => {
         console.log(res.data);
+        let newList = [...movies];
+        newList.map(movie => {
+          if (movie.id === res.data.id) {
+            return res.data;
+          }
+          return movie;
+        });
+        updateMovies(newList);
       })
       .catch(err => {
         console.error(err.response);
@@ -36,7 +46,7 @@ const UpdateMovie = props => {
     setMovie({
       ...movie,
       stars: movie.stars.map((star, i) => {
-        console.log('e.target.key', e.target.name)
+        console.log("e.target.key", e.target.name);
         if (e.target.name === `${i}`) {
           return e.target.value;
         }
@@ -88,4 +98,9 @@ const UpdateMovie = props => {
   );
 };
 
-export default UpdateMovie;
+const mapStateToProps = state => ({ movies: state.movies });
+
+export default connect(
+  mapStateToProps,
+  {updateMovies}
+)(UpdateMovie);
