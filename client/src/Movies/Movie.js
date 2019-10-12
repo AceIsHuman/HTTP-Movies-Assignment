@@ -2,7 +2,9 @@ import React from "react";
 import axios from "axios";
 import MovieCard from "./MovieCard";
 import { Button } from "semantic-ui-react";
-export default class Movie extends React.Component {
+import { connect } from "react-redux";
+import { deleteMovie } from "../actions";
+class Movie extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,7 +53,21 @@ export default class Movie extends React.Component {
         >
           Edit Movie Details
         </Button>
+        <Button
+          onClick={e => {
+            e.preventDefault();
+            this.props.deleteMovie(this.state.movie.id);
+            this.props.history.push("/");
+          }}
+        >
+          Delete Movie
+        </Button>
       </div>
     );
   }
 }
+
+export default connect(
+  null,
+  { deleteMovie }
+)(Movie);
