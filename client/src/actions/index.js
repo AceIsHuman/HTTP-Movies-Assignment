@@ -18,7 +18,7 @@ export const deleteMovie = id => dispatch => {
     .delete(`http://localhost:5000/api/movies/${id}`)
     .then(res => {
       console.log("actions: deleteMovie(): res: ", res);
-      dispatch({ type: DELETE_MOVIE, payload: res.data})
+      dispatch({ type: DELETE_MOVIE, payload: res.data });
     })
-    .catch(err => console.error(err.response.message));
+    .catch(err => console.error(err.response));
 };
